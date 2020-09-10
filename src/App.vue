@@ -20,6 +20,7 @@ import Boostrap from "libp2p-bootstrap";
 import KadDHT from "libp2p-kad-dht";
 import GossipSub from "libp2p-gossipsub";
 import PeerId from "peer-id";
+//import WebRTCDirect from "libp2p-webrtc-direct";
 
 export default {
   name: "App",
@@ -62,12 +63,13 @@ async function createLibp2p() {
       // libp2p will automatically attempt to dial to the signaling server so that it can
       // receive inbound connections from other peers
       listen: [
-        "/dns4/wrtc-star1.par.dwebops.pub/tcp/443/wss/p2p-webrtc-star", //,
-        "/dns4/wrtc-star2.sjc.dwebops.pub/tcp/443/wss/p2p-webrtc-star",
+        "/ip4/127.0.0.1/tcp/9090/ws/p2p-webrtc-star" //wss:443 not enabled now
+        //"/dns4/wrtc-star1.par.dwebops.pub/tcp/443/wss/p2p-webrtc-star", //,
+        //"/dns4/wrtc-star2.sjc.dwebops.pub/tcp/443/wss/p2p-webrtc-star",
       ],
     },
     modules: {
-      transport: [Websockets, WebRTCStar],
+      transport: [Websockets, WebRTCStar],//WebRTCDirect, 
       connEncryption: [NOISE, Secio],
       streamMuxer: [Mplex],
       peerDiscovery: [Boostrap],
@@ -80,17 +82,18 @@ async function createLibp2p() {
         bootstrap: {
           enabled: true,
           list: [
-            "/dns4/ams-1.bootstrap.libp2p.io/tcp/443/wss/p2p/QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd",
-            "/dns4/lon-1.bootstrap.libp2p.io/tcp/443/wss/p2p/QmSoLMeWqB7YGVLJN3pNLQpmmEk35v6wYtsMGLzSr5QBU3",
-            "/dns4/sfo-3.bootstrap.libp2p.io/tcp/443/wss/p2p/QmSoLPppuBtQSGwKDZT2M73ULpjvfd3aZ6ha4oFGL1KrGM",
-            "/dns4/sgp-1.bootstrap.libp2p.io/tcp/443/wss/p2p/QmSoLSafTMBsPKadTEgaXctDQVcqN88CNLHXMkTNwMKPnu",
-            "/dns4/nyc-1.bootstrap.libp2p.io/tcp/443/wss/p2p/QmSoLueR4xBeUbY9WZ9xGUUxunbKWcrNFTDAadQJmocnWm",
-            "/dns4/nyc-2.bootstrap.libp2p.io/tcp/443/wss/p2p/QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64",
+            "/ip4/127.0.0.1/tcp/6031/ws/p2p/16Uiu2HAmJqs2jSBJWhxRSCjnkMM6CReqGu3fEvAqcy5wPBbtoUMH", //Bootnode levantado con pubsub-node
+           // "/dns4/ams-1.bootstrap.libp2p.io/tcp/443/wss/p2p/QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd",
+           // "/dns4/lon-1.bootstrap.libp2p.io/tcp/443/wss/p2p/QmSoLMeWqB7YGVLJN3pNLQpmmEk35v6wYtsMGLzSr5QBU3",
+           // "/dns4/sfo-3.bootstrap.libp2p.io/tcp/443/wss/p2p/QmSoLPppuBtQSGwKDZT2M73ULpjvfd3aZ6ha4oFGL1KrGM",
+           // "/dns4/sgp-1.bootstrap.libp2p.io/tcp/443/wss/p2p/QmSoLSafTMBsPKadTEgaXctDQVcqN88CNLHXMkTNwMKPnu",
+           // "/dns4/nyc-1.bootstrap.libp2p.io/tcp/443/wss/p2p/QmSoLueR4xBeUbY9WZ9xGUUxunbKWcrNFTDAadQJmocnWm",
+           // "/dns4/nyc-2.bootstrap.libp2p.io/tcp/443/wss/p2p/QmSoLV4Bbm51jM9C4gDYZQ9Cy3U6aXMJDAbzgu2fzaDs64",
           ],
         },
         webRTCStar: {
           enabled: true,
-        },
+        }
       },
       dht: {
         kBucketSize: 20,
